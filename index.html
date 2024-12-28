@@ -24,11 +24,11 @@
             text-decoration: underline;
         }
 		img {
-    border-radius: 8px; /* Lekko zaokrąglone rogi */
-    border: 1px solid rgba(0, 0, 0, 0.1); /* Lekka obwódka z przezroczystym czarnym kolorem */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtelny cień dla estetyki */
-    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Animacja dla efektu */
-}
+			border-radius: 8px; /* Lekko zaokrąglone rogi */
+			border: 1px solid rgba(0, 0, 0, 0.1); /* Lekka obwódka z przezroczystym czarnym kolorem */
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtelny cień dla estetyki */
+			transition: transform 0.2s ease, box-shadow 0.2s ease; /* Animacja dla efektu */
+		}
         /* Header Navigation */
         .header-nav {
             background-color: #0b1e3d;
@@ -195,95 +195,105 @@
 			border: 1px solid rgba(0, 0, 0, 1); /* Czarna obwódka dla aktywnej kropki */
 		}
 		/* Global Box-Sizing */
-* {
-    box-sizing: border-box;
-}
+		* {
+			box-sizing: border-box;
+		}
 
-/* Slideshow Container */
-.slideshow {
-    position: relative;
-    max-width: 750px;
-    aspect-ratio: 16 / 9;
-    margin: 20px auto;
-    overflow: hidden; /* Ensures no overflow */
-    background-color: transparent;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
-    padding: 0; /* Remove any padding */
-}
+		/* Slideshow Container */
+		.slideshow {
+			position: relative;
+			max-width: 750px;
+			aspect-ratio: 16 / 9;
+			margin: 20px auto;
+			overflow: hidden; /* Ensures no overflow */
+			background-color: transparent;
+			border-radius: 10px;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+			padding: 0; /* Remove any padding */
+		}
 
-/* Slides Container */
-.slides {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-    width: 100%; /* Will be dynamically set via JavaScript if needed */
-    padding: 0; /* Remove any padding */
-    margin: 0; /* Remove any margin */
-}
+		/* Slides Container */
+		.slides {
+			display: flex;
+			transition: transform 0.5s ease-in-out;
+			width: 100%; /* Will be dynamically set via JavaScript if needed */
+			padding: 0; /* Remove any padding */
+			margin: 0; /* Remove any margin */
+		}
 
-/* Individual Slides */
-.slides img {
-    flex: 0 0 100%; /* Ensures each image takes up 100% of the slideshow width */
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block; /* Removes any extra space below images */
-}
+		/* Individual Slides */
+		.slides img {
+			flex: 0 0 100%; /* Ensures each image takes up 100% of the slideshow width */
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			display: block; /* Removes any extra space below images */
+		}
 
-/* Navigation Buttons */
-.prev, .next {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: #ffffff;
-    border: none;
-    font-size: 18px;
-    padding: 10px;
-    cursor: pointer;
-    z-index: 10;
-}
+		/* Navigation Buttons */
+		.prev, .next {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			background-color: rgba(0, 0, 0, 0.5);
+			color: #ffffff;
+			border: none;
+			font-size: 18px;
+			padding: 10px;
+			cursor: pointer;
+			z-index: 10;
+		}
 
-.prev {
-    left: 10px;
-}
+		.prev {
+			left: 10px;
+		}
 
-.next {
-    right: 10px;
-}
+		.next {
+			right: 10px;
+		}
 
-.prev:hover, .next:hover {
-    background-color: #1e90ff;
-}
+		.prev:hover, .next:hover {
+			background-color: #1e90ff;
+		}
 
-/* Dots Navigation */
-.dots {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 8px;
-    z-index: 5;
-    background: none;
-    padding: 0;
-    margin: 0;
-}
+		/* Dots Navigation */
+		.dots {
+			position: absolute;
+			bottom: 10px;
+			left: 50%;
+			transform: translateX(-50%);
+			display: flex;
+			gap: 8px;
+			z-index: 5;
+			background: none;
+			padding: 0;
+			margin: 0;
+		}
 
-.dots .dot {
-    width: 12px;
-    height: 12px;
-    background-color: rgba(255, 255, 255, 0.6);
-    border-radius: 50%;
-    border: 1px solid rgba(0, 0, 0, 0.8);
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+		.dots .dot {
+			width: 12px;
+			height: 12px;
+			background-color: rgba(255, 255, 255, 0.6);
+			border-radius: 50%;
+			border: 1px solid rgba(0, 0, 0, 0.8);
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
 
-.dots .dot.active {
-    background-color: #1e90ff;
-    border: 1px solid rgba(0, 0, 0, 1);
-}
+		.dots .dot.active {
+			background-color: #1e90ff;
+			border: 1px solid rgba(0, 0, 0, 1);
+		}
+		section {
+			scroll-margin-top: 0px; /* Dostosuj wartość do wysokości paska nawigacyjnego */
+			position: relative;
+		}
+		section::before {
+			content: "";
+			display: block;
+			height: 80px; /* Wysokość odstępu - dostosuj do wysokości paska */
+			margin-top: -80px; /* Negatywny margines równy wysokości odstępu */
+		}
     </style>
 </head>
 <body>
@@ -304,6 +314,7 @@
             <a href="#installation">Installation</a>
             <a href="#features">Features</a>
             <a href="#customization">Customization</a>
+            <a href="#troubleshooting">Troubleshooting</a>
             <a href="#credits">Credits</a>
         </nav>
     </header>
@@ -603,6 +614,12 @@ After making changes to the ranks.xml file, ensure you reload the entire LSPDFR 
                 <p>The “data.xml” file contains the <b>saved data and statistics</b> of your characters. Editing this file is <b>not recommended</b>, and if you choose to do so, it is at <b>your own risk.</b></p>
             </div>
 		<section>
+		
+		<section id="troubleshooting">
+            <h1>Troubleshooting</h1>
+            <p>1. The plugin and guide created entirely by user Vitus27.</p>
+            <p>- A huge thank you to all the patrons who supported the project.</p>
+        </section>
 
         <section id="credits">
             <h1>Credits</h1>
