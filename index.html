@@ -5,296 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LSPDFR Enhanced Guide</title>
     <link rel="icon" href="https://i.imgur.com/r8KbNJM.png" type="image/png">
-    <style>
-        /* General Reset */
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #12161d;
-            font-family: "Arial", sans-serif;
-            font-size: 16px;
-            color: #e0e0e0;
-            line-height: 1.6;
-        }
-        a {
-            color: #1e90ff;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-		img {
-			border-radius: 8px; /* Lekko zaokrąglone rogi */
-			border: 1px solid rgba(0, 0, 0, 0.1); /* Lekka obwódka z przezroczystym czarnym kolorem */
-			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtelny cień dla estetyki */
-			transition: transform 0.2s ease, box-shadow 0.2s ease; /* Animacja dla efektu */
-		}
-        /* Header Navigation */
-        .header-nav {
-            background-color: #0b1e3d;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .header-nav .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .header-nav .logo img {
-            width: 32px;
-            height: 32px;
-        }
-        .header-nav .menu {
-            display: flex;
-            gap: 15px;
-        }
-        .header-nav .menu a {
-            color: #ffffff;
-            padding: 8px 12px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        .header-nav .menu a:hover {
-            background-color: #1e90ff;
-        }
-        /* Banner Section */
-        .banner {
-            width: 100%;
-            overflow: hidden;
-        }
-        .banner img {
-			width: calc(100vw * var(--scale, 1));
-			height: auto;
-			display: block;
-			transform: scale(var(--scale, 1));
-			transform-origin: center center;
-		}
-        /* Content Wrapper */
-        .content {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #18253e;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
-        }
-        .content h1 {
-            font-size: 26px;
-            color: #1e90ff;
-            border-bottom: 2px solid #1e90ff;
-            padding-bottom: 8px;
-            margin-bottom: 20px;
-        }
-        /* Styled Lists */
-        .content ol, .content ul {
-            margin-left: 20px;
-        }
-        .content ol li, .content ul li {
-            margin: 10px 0;
-        }
-        /* Footer */
-        .footer {
-            text-align: center;
-            background-color: #0b1e3d;
-            padding: 20px 10px;
-            margin-top: 20px;
-            color: #a8a8a8;
-            font-size: 14px;
-        }
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .header-nav .menu {
-                flex-direction: column;
-                align-items: flex-end;
-                gap: 10px;
-            }
-        }
-		.feature {
-			margin-bottom: 40px;
-		}
-		.slideshow {
-			position: relative;
-			max-width: 750px;
-			aspect-ratio: 16 / 9;
-			margin: 20px auto;
-			overflow: hidden; /* Ukrywa wszystko poza aktualnym slajdem */
-			background-color: transparent;
-			border-radius: 10px;
-			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
-		}
-
-		.slides {
-			display: flex;
-			transition: transform 0.5s ease-in-out;
-			width: 100%; /* Dopasowanie szerokości do kontenera */
-		}
-
-		.slides img {
-			flex: 0 0 100%; /* Prevents the image from shrinking or growing */
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-			display: block; /* Ensures no extra space below images */
-		}
-		.prev, .next {
-			position: absolute;
-			top: 50%;
-			transform: translateY(-50%);
-			background-color: rgba(0, 0, 0, 0.5);
-			color: #ffffff;
-			border: none;
-			font-size: 18px;
-			padding: 10px;
-			cursor: pointer;
-			z-index: 10;
-		}
-		.prev {
-			left: 10px;
-		}
-		.next {
-			right: 10px;
-		}
-		.prev:hover, .next:hover {
-			background-color: #1e90ff;
-		}
-		
-		.dots {
-			position: absolute; /* Pozycjonowanie absolutne względem slajdu */
-			bottom: 10px; /* Odstęp od dolnej krawędzi slajdu */
-			left: 50%; /* Centrowanie poziome */
-			transform: translateX(-50%); /* Wyrównanie środka */
-			display: flex; /* Ustawia elementy w linii */
-			gap: 8px; /* Dodaje odstęp między kropkami */
-			z-index: 5; /* Zapewnia, że kropki będą widoczne nad slajdami */
-			background: none; /* Usuń tło kontenera kropek */
-			padding: 0; /* Usuń dodatkowe odstępy */
-			margin: 0; /* Usuń margines */
-		}
-		
-		.dots .dot {
-			width: 12px; /* Szerokość kropki */
-			height: 12px; /* Wysokość kropki */
-			background-color: rgba(255, 255, 255, 0.6); /* Bazowy kolor kropki */
-			border-radius: 50%; /* Sprawia, że kropka jest okrągła */
-			border: 1px solid rgba(0, 0, 0, 0.8); /* Cienka czarna obwódka z delikatną przezroczystością */
-			cursor: pointer; /* Wskazuje, że element jest klikalny */
-			transition: background-color 0.3s ease; /* Animacja zmiany koloru */
-		}
-
-		.dots .dot.active {
-			background-color: #1e90ff; /* Kolor aktywnej kropki */
-			border: 1px solid rgba(0, 0, 0, 1); /* Czarna obwódka dla aktywnej kropki */
-		}
-		/* Global Box-Sizing */
-		* {
-			box-sizing: border-box;
-		}
-
-		/* Slideshow Container */
-		.slideshow {
-			position: relative;
-			max-width: 750px;
-			aspect-ratio: 16 / 9;
-			margin: 20px auto;
-			overflow: hidden; /* Ensures no overflow */
-			background-color: transparent;
-			border-radius: 10px;
-			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
-			padding: 0; /* Remove any padding */
-		}
-
-		/* Slides Container */
-		.slides {
-			display: flex;
-			transition: transform 0.5s ease-in-out;
-			width: 100%; /* Will be dynamically set via JavaScript if needed */
-			padding: 0; /* Remove any padding */
-			margin: 0; /* Remove any margin */
-		}
-
-		/* Individual Slides */
-		.slides img {
-			flex: 0 0 100%; /* Ensures each image takes up 100% of the slideshow width */
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-			display: block; /* Removes any extra space below images */
-		}
-
-		/* Navigation Buttons */
-		.prev, .next {
-			position: absolute;
-			top: 50%;
-			transform: translateY(-50%);
-			background-color: rgba(0, 0, 0, 0.5);
-			color: #ffffff;
-			border: none;
-			font-size: 18px;
-			padding: 10px;
-			cursor: pointer;
-			z-index: 10;
-		}
-
-		.prev {
-			left: 10px;
-		}
-
-		.next {
-			right: 10px;
-		}
-
-		.prev:hover, .next:hover {
-			background-color: #1e90ff;
-		}
-
-		/* Dots Navigation */
-		.dots {
-			position: absolute;
-			bottom: 10px;
-			left: 50%;
-			transform: translateX(-50%);
-			display: flex;
-			gap: 8px;
-			z-index: 5;
-			background: none;
-			padding: 0;
-			margin: 0;
-		}
-
-		.dots .dot {
-			width: 12px;
-			height: 12px;
-			background-color: rgba(255, 255, 255, 0.6);
-			border-radius: 50%;
-			border: 1px solid rgba(0, 0, 0, 0.8);
-			cursor: pointer;
-			transition: background-color 0.3s ease;
-		}
-
-		.dots .dot.active {
-			background-color: #1e90ff;
-			border: 1px solid rgba(0, 0, 0, 1);
-		}
-		section {
-			scroll-margin-top: 0px; /* Dostosuj wartość do wysokości paska nawigacyjnego */
-			position: relative;
-		}
-		section::before {
-			content: "";
-			display: block;
-			height: 80px; /* Wysokość odstępu - dostosuj do wysokości paska */
-			margin-top: -80px; /* Negatywny margines równy wysokości odstępu */
-		}
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Header Section -->
@@ -315,6 +26,7 @@
             <a href="#features">Features</a>
             <a href="#customization">Customization</a>
             <a href="#troubleshooting">Troubleshooting</a>
+            <a href="#compatible">Compatible Plugins</a>
             <a href="#credits">Credits</a>
         </nav>
     </header>
@@ -332,7 +44,13 @@
             
             <p>The plugin introduces shift schedules and locations, along with realistic mechanics for you to manage hunger, fatigue, fuel, and apartment payments. And that’s just the beginning of its features.</p>
             
+			<p>We warmly invite you to visit our <a href="https://www.patreon.com/LSPDFREnhanced" target="_blank">
+				<u style="color: #FFFF00; text-shadow: 2px 2px 5px #000000; border-radius: 5px;"><b style="color: #FFFF00; text-shadow: 2px 2px 5px #000000; border-radius: 5px;">Patreon</u></b>
+			</a>  ! Support tiers start at just <b>$3</b> per month. As a patron, you’ll gain access to <b>exclusive plugin updates</b>, including <b>custom callouts</b> and many exciting <b>new features</b> we’re constantly rolling out.</p>
+			
+
             <p><b>LSPDFR Enhanced is a must-have for players seeking a more immersive and realistic gameplay experience.</b></p>
+			
         </section>
 
         <section id="installation">
@@ -617,14 +335,52 @@ After making changes to the ranks.xml file, ensure you reload the entire LSPDFR 
 		
 		<section id="troubleshooting">
             <h1>Troubleshooting</h1>
-            <p>1. The plugin and guide created entirely by user Vitus27.</p>
-            <p>- A huge thank you to all the patrons who supported the project.</p>
+            <p><b>1. My game crashes/freezes after starting a new career.</b></p>
+            <p>- Reinstall LSPDFR Enhanced. If that doesn't help reinstall the entire LSPDFR.</p>
+            <p><b>2. My game crashes/freezes after starting a shift.</b></p>
+            <p>- Most likely you have one of the incompatible plugins. It is recommended to remove all plugins marked as incompatible and install compatible replacements.</p>
+			<p><b>3. My game crashes/freezes at a different time than the ones mentioned above.</b></p>
+            <p>- If it is a crash/freeze that occurs immediately after using features from LSPDFR Enhanced (e.g., after eating, after refueling, after starting a break, etc.) then please contact us through our Discord server and report the problem there. However, if it is a crash/freeze that occurs at a random time unrelated to LSPDFR Enhanced then it is most likely not caused by LSPDFR Enhacned. It is recommended to seek help on discord servers/forums related to LSPDFR, not directly to LSPDFR Enhanced.</p>
+			<p><b>4. Some feature of LSPDFR Enhanced is not working for me.</b></p>
+            <p>- Make sure that you definitely have a good understanding of how this function should work and that it is 100% not working. You will find a thorough explanation of each function in this guide. If you are convinced that it is a bug go to our Discord server and ask for help there.</p>			
+			<p><b>5. LSPDFR Enhanced makes another plugin not work properly.</b></p>
+            <p>- If it is a modification incompatible with LSPDFR Enhanced then unfortunately, but you must replace this plugin with a compatible replacement. However, if it is a compatible modification then you probably have some other plugin marked as incompatible - it is recommended to remove it, it is the one that may be causing the problem.</p>
+			<p><b>6. My game stutters for a while when I start or end a shift, accept or complete a callout and initiate a traffic stop.</b></p>
+            <p>- Disable online-mode in the plugin's settings.</p>			
+			<p><b>7. I have big fps drops when playing with LSPDFR Enhanced.</b></p>
+            <p>- Make sure they are caused by LSPDFR Enhanced and not by LSPDFR itself or another plug-in. If you are convinced that LSPDFR Enhanced is causing them, go to our Discord server and ask for help there.</p>
+        </section>
+		
+		<section id="compatible">
+            <h1>Compatible LSPDFR Plugins - SOON</h1>
+            <!--<p style="color: lightgreen"><b>1. Completely compatible - no bugs:</b></p>
+            <ul><li>Mod A, Mod B, Mod C</li></ul>
+			<p style="color: yellow"><b>2. Partially compatible - minor bugs not interfering with gameplay:</b></p>
+            <ul>
+				<li>Mod A - Explenation</li>
+				<li>Mod B - Explenation</li>
+				<li>Mod C - Explenation</li>
+			</ul>
+			<p style="color: orange"><b>3. Incompatible - Most features do not work properly:</b></p>
+            <ul>
+				<li>Mod A - Explenation</li>
+				<li>Mod B - Explenation</li>
+				<li>Mod C - Explenation</li>
+			</ul>		
+			<p style="color: red"><b>4. Very incompatible - The plugin crashes LSPDFR/freezes the game:</b></p>
+            <ul>
+				<li>Mod A - Explenation</li>
+				<li>Mod B - Explenation</li>
+				<li>Mod C - Explenation</li>
+			</ul>-->
         </section>
 
         <section id="credits">
             <h1>Credits</h1>
             <p>The plugin and guide created entirely by user Vitus27.</p>
-            <p>A huge thank you to all the patrons who supported the project.</p>
+            <p><b>A big thank you to our small administration:</b> .cloudlet and wolfis4</p>
+			<p><b>And to all LSPDFR Enhanced patrons:</b> Addict Roleplay, Alexander Bullyram, Ashley Grillo, aydennlgamer, Bill Zer, Caback, celeste caro, Chris R, Chris Wht, Christopher Wells, David Bedford, David Ramsingh, Dmitriy Kot, Donald W, DR3DDED Souls, EV07, eyad alsubhi, Fabien Arenibas Garcia, Fabien Garcia, Francois Bardot, games1972, Gino Tegami, GWhiteDakilla, Ja'Maine Hewitt, Jalen Dear, Jimmy Holt, johnstorm, Josh, Joshua Stoltz, Josiah Papanah, Kuraver 028, Kyle Rosario, Larry, LucasGameTuber, Mads Høgenhaug, Michael Bourne, Michael brothers, ncrgoonscupseries, Nich Tate, Noah, Obaid Jasim, Robert Mccoy, Scott Campbell, Sofia Mironenko, Steve Degreef, Toxinuous, Tyler, tyler clawson, Z3ffyR, ゲーム実況チャンネル! 暇人.</p>
+			<p><i>We're doing this togheter!</i> 💙❤️</p>
         </section>
     </div>
 
@@ -632,53 +388,6 @@ After making changes to the ranks.xml file, ensure you reload the entire LSPDFR 
     <footer class="footer">
         <p>&copy; 2024 LSPDFR Enhanced. All Rights Reserved.</p>
     </footer>
+	<script src="scripts.js"></script>
 </body>
-<script>
-	document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll('.slideshow').forEach(slideshow => {
-        const slides = slideshow.querySelector('.slides');
-        const images = slides.children;
-        const dotsContainer = slideshow.querySelector('.dots');
-        let index = 0;
-
-        // Tworzenie kropek
-        for (let i = 0; i < images.length; i++) {
-            const dot = document.createElement('button');
-            dot.classList.add('dot');
-            dot.addEventListener('click', () => {
-                showSlide(i);
-            });
-            dotsContainer.appendChild(dot);
-        }
-
-        const dots = dotsContainer.children;
-
-        // Funkcja wyświetlania slajdu
-        const showSlide = (i) => {
-            index = (i + images.length) % images.length;
-            slides.style.transform = `translateX(${-index * 100}%)`;
-            updateDots();
-        };
-
-        // Aktualizacja kropek
-        const updateDots = () => {
-            Array.from(dots).forEach((dot, i) => {
-                dot.classList.toggle('active', i === index);
-            });
-        };
-
-        // Obsługa przycisków "prev" i "next"
-        slideshow.querySelector('.prev').addEventListener('click', () => {
-            showSlide(index - 1);
-        });
-
-        slideshow.querySelector('.next').addEventListener('click', () => {
-            showSlide(index + 1);
-        });
-
-        // Inicjalizacja pierwszej kropki jako aktywnej
-        showSlide(0);
-    });
-});
-</script>
 </html>
