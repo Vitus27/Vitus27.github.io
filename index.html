@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LSPDFR Enhanced Guide</title>
+    <link rel="icon" href="https://i.imgur.com/r8KbNJM.png" type="image/png">
+    <style>
+        /* General Reset */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #12161d;
+            font-family: "Arial", sans-serif;
+            font-size: 16px;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+        a {
+            color: #1e90ff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+		img {
+    border-radius: 8px; /* Lekko zaokrąglone rogi */
+    border: 1px solid rgba(0, 0, 0, 0.1); /* Lekka obwódka z przezroczystym czarnym kolorem */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtelny cień dla estetyki */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Animacja dla efektu */
+}
+        /* Header Navigation */
+        .header-nav {
+            background-color: #0b1e3d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header-nav .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header-nav .logo img {
+            width: 32px;
+            height: 32px;
+        }
+        .header-nav .menu {
+            display: flex;
+            gap: 15px;
+        }
+        .header-nav .menu a {
+            color: #ffffff;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .header-nav .menu a:hover {
+            background-color: #1e90ff;
+        }
+        /* Banner Section */
+        .banner {
+            width: 100%;
+            overflow: hidden;
+        }
+        .banner img {
+			width: calc(100vw * var(--scale, 1));
+			height: auto;
+			display: block;
+			transform: scale(var(--scale, 1));
+			transform-origin: center center;
+		}
+        /* Content Wrapper */
+        .content {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #18253e;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+        }
+        .content h1 {
+            font-size: 26px;
+            color: #1e90ff;
+            border-bottom: 2px solid #1e90ff;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+        }
+        /* Styled Lists */
+        .content ol, .content ul {
+            margin-left: 20px;
+        }
+        .content ol li, .content ul li {
+            margin: 10px 0;
+        }
+        /* Footer */
+        .footer {
+            text-align: center;
+            background-color: #0b1e3d;
+            padding: 20px 10px;
+            margin-top: 20px;
+            color: #a8a8a8;
+            font-size: 14px;
+        }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-nav .menu {
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 10px;
+            }
+        }
+		.feature {
+			margin-bottom: 40px;
+		}
+		.slideshow {
+			position: relative;
+			max-width: 750px;
+			aspect-ratio: 16 / 9;
+			margin: 20px auto;
+			overflow: hidden; /* Ukrywa wszystko poza aktualnym slajdem */
+			background-color: transparent;
+			border-radius: 10px;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+		}
+
+		.slides {
+			display: flex;
+			transition: transform 0.5s ease-in-out;
+			width: 100%; /* Dopasowanie szerokości do kontenera */
+		}
+
+		.slides img {
+			flex: 0 0 100%; /* Prevents the image from shrinking or growing */
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			display: block; /* Ensures no extra space below images */
+		}
+		.prev, .next {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			background-color: rgba(0, 0, 0, 0.5);
+			color: #ffffff;
+			border: none;
+			font-size: 18px;
+			padding: 10px;
+			cursor: pointer;
+			z-index: 10;
+		}
+		.prev {
+			left: 10px;
+		}
+		.next {
+			right: 10px;
+		}
+		.prev:hover, .next:hover {
+			background-color: #1e90ff;
+		}
+		
+		.dots {
+			position: absolute; /* Pozycjonowanie absolutne względem slajdu */
+			bottom: 10px; /* Odstęp od dolnej krawędzi slajdu */
+			left: 50%; /* Centrowanie poziome */
+			transform: translateX(-50%); /* Wyrównanie środka */
+			display: flex; /* Ustawia elementy w linii */
+			gap: 8px; /* Dodaje odstęp między kropkami */
+			z-index: 5; /* Zapewnia, że kropki będą widoczne nad slajdami */
+			background: none; /* Usuń tło kontenera kropek */
+			padding: 0; /* Usuń dodatkowe odstępy */
+			margin: 0; /* Usuń margines */
+		}
+		
+		.dots .dot {
+			width: 12px; /* Szerokość kropki */
+			height: 12px; /* Wysokość kropki */
+			background-color: rgba(255, 255, 255, 0.6); /* Bazowy kolor kropki */
+			border-radius: 50%; /* Sprawia, że kropka jest okrągła */
+			border: 1px solid rgba(0, 0, 0, 0.8); /* Cienka czarna obwódka z delikatną przezroczystością */
+			cursor: pointer; /* Wskazuje, że element jest klikalny */
+			transition: background-color 0.3s ease; /* Animacja zmiany koloru */
+		}
+
+		.dots .dot.active {
+			background-color: #1e90ff; /* Kolor aktywnej kropki */
+			border: 1px solid rgba(0, 0, 0, 1); /* Czarna obwódka dla aktywnej kropki */
+		}
+		/* Global Box-Sizing */
+* {
+    box-sizing: border-box;
+}
+
+/* Slideshow Container */
+.slideshow {
+    position: relative;
+    max-width: 750px;
+    aspect-ratio: 16 / 9;
+    margin: 20px auto;
+    overflow: hidden; /* Ensures no overflow */
+    background-color: transparent;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+    padding: 0; /* Remove any padding */
+}
+
+/* Slides Container */
+.slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 100%; /* Will be dynamically set via JavaScript if needed */
+    padding: 0; /* Remove any padding */
+    margin: 0; /* Remove any margin */
+}
+
+/* Individual Slides */
+.slides img {
+    flex: 0 0 100%; /* Ensures each image takes up 100% of the slideshow width */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block; /* Removes any extra space below images */
+}
+
+/* Navigation Buttons */
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+    border: none;
+    font-size: 18px;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.prev {
+    left: 10px;
+}
+
+.next {
+    right: 10px;
+}
+
+.prev:hover, .next:hover {
+    background-color: #1e90ff;
+}
+
+/* Dots Navigation */
+.dots {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 5;
+    background: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dots .dot {
+    width: 12px;
+    height: 12px;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.dots .dot.active {
+    background-color: #1e90ff;
+    border: 1px solid rgba(0, 0, 0, 1);
+}
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header-nav">
+        <div class="logo">
+            <img src="https://i.imgur.com/r8KbNJM.png" alt="">
+            LSPDFR Enhanced Guide
+        </div>
+        <nav class="menu">
+            <a href="https://www.patreon.com/LSPDFREnhanced" target="_blank">
+				<b style="color: #FFFF00; background-color: #333333; padding: 5px 10px; text-shadow: 2px 2px 5px #000000; border-radius: 5px;">Patreon</b>
+			</a>            
+			<a href="https://discord.gg/YgjJ7Xs9Ht" target="_blank">
+				<b style="color: #ec00ff; background-color: #333333; padding: 5px 10px; text-shadow: 2px 2px 5px #000000; border-radius: 5px;">Discord</b>
+			</a>
+            <a href="#summary">Summary</a>
+            <a href="#installation">Installation</a>
+            <a href="#features">Features</a>
+            <a href="#customization">Customization</a>
+            <a href="#credits">Credits</a>
+        </nav>
+    </header>
+
+    <!-- Banner Section -->
+    <div class="banner">
+        <img src="https://i.imgur.com/3Ku3mt3.png" alt="LSPDFR Enhanced">
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <section id="summary">
+            <h1>Summary</h1>
+            <p><b>LSPDFR Enhanced</b> is an advanced extension for the LSPDFR modification, designed to add a significant dose of <b>realism</b> to your gameplay and provide you with a sense of purpose. In the default LSPDFR, there’s no <b>progression</b> system — no ranks or career advancements. LSPDFR Enhanced <b>changes this entirely</b>, allowing you to earn points for completing callouts and climb the ranks within agencies like the LSPD, LSSD, or SAHP (or any other, as the rank system is fully customizable).</p>
+            
+            <p>The plugin introduces shift schedules and locations, along with realistic mechanics for you to manage hunger, fatigue, fuel, and apartment payments. And that’s just the beginning of its features.</p>
+            
+            <p><b>LSPDFR Enhanced is a must-have for players seeking a more immersive and realistic gameplay experience.</b></p>
+        </section>
+
+        <section id="installation">
+            <h1>Installation</h1>
+            <p><b>Before installing LSPDFR Enhanced, make sure you have the following tools installed:</b></p>
+            <ol>
+                <li><a href="url">LSPD: First Response</a> – the <b>base mod</b> required for this plugin.</li>
+                <li><a href="url">OpenIV</a> – ensure that <i>ASI Loader</i> and <i>OpenIV.ASI</i> are installed within <b>OpenIV</b>.</li>
+            </ol>
+            <p>If you already have a <b>"mods" folder</b>, it is highly recommended you create a <b>backup</b> to avoid potential issues during installation.</p>
+            <p><b>Step-by-step Installation:</b></p>
+            <ol>
+                <li>Open the .oiv file included in the downloaded archive.</li>
+                <li>Click <b>"Install"</b> and select <b>"mods folder"</b>.</li>
+                <li>Wait a few seconds for the installation process to complete.</li>
+            </ol>
+            <p>Once the installation is finished, <b>launch GTA V with the LSPDFR mod</b>. To confirm that LSPDFR Enhanced is functioning correctly, <b>go on duty</b> in the game. If everything was set up properly, the following <b>notification</b> should appear on your screen:</p>
+            <img src="https://i.imgur.com/can7C5K.png"/>
+            <p>To embark on your journey with LSPDFR Enhanced, simply <b>press F6</b> and select <b>"Start New Career"</b>. Get ready for an immersive gameplay experience full of excitement!</p>
+        </section>
+
+        <section id="features">
+            <h1>Features</h1>
+            
+            <div class="feature">
+                <h2>HUD And Blips</h2>
+                <div class="slideshow">
+                    <div class="slides">
+                        <img src="https://i.imgur.com/YKg8m1v.png" alt="">
+                        <img src="https://i.imgur.com/Ct8aux4.png" alt="">
+                        <img src="https://i.imgur.com/UDuNGgQ.png" alt="">
+                    </div>
+                    <button class="prev">&#10094;</button>
+                    <button class="next">&#10095;</button>
+					<div class="dots"></div> <!-- Upewnij się, że jest obecny -->
+                </div>
+                <p>LSPDFR Enhanced introduces a completely <b>customized HUD</b> designed to enhance and simplify your gameplay experience. To view the HUD, simply <b>hold the F5 key</b>. By default, the HUD is only visible while holding the key, but you can adjust this in the settings.</p>
+                <p><b>What does the new HUD offer?</b></p>
+                <ul>
+                <li>On the left: in-game <b>date, day of the week, and time.</b></li>
+                <li>On the top right: your current <b>account balance</b>.</li>
+                <li>Below the account balance: <b>your hunger</b> and <b>fatigue</b> levels, represented with colors: green, light yellow, dark yellow, orange, and red. Red indicates that your character is very hungry or tired.</li>
+                <li>At the bottom right: your <b>current rank</b> and a <b>progress bar</b> showing how close you are to a promotion.</li>
+                </ul>
+                <p><b>LSPDFR Enhanced also adds a wide array of map blips for you to explore, categorized as follows:</b></p>
+                <ul>
+                <li>Light Blue (20): <b>shops</b> where you can buy items or grab a snack.</li>
+                <li>Orange (43): <b>cafes</b> for a quick coffee.</li>
+                <li>Yellow (45) and Red (70): <b>fast-food</b> joints and <b>restaurants</b> to satisfy your hunger.</li>
+                <li>Orange Gas Stations (24): places to <b>refuel</b> your vehicle.</li>
+                </ul>
+                <p>These locations are spread across the map, from Los Santos Airport to Paleto Bay!</p>
+            </div>
+
+            <div class="feature">
+                <h2>Shift Schedules</h2>
+                <div class="slideshow">
+                    <div class="slides">
+                        <img src="https://i.imgur.com/uH8LsjV.png" alt="">
+                        <img src="https://i.imgur.com/rSnh1M0.png" alt="">
+                        <img src="https://i.imgur.com/NwuQhjw.png" alt="">
+                        <img src="https://i.imgur.com/UuifPiZ.png" alt="">
+                        <img src="https://i.imgur.com/ST0kYWx.png" alt="">
+                        <img src="https://i.imgur.com/QCpFE5z.png" alt="">
+                        <img src="https://i.imgur.com/FIBICD2.png" alt="">
+                        <img src="https://i.imgur.com/FyuaSvc.png" alt="">
+                    </div>
+                    <button class="prev">&#10094;</button>
+                    <button class="next">&#10095;</button>
+					<div class="dots"></div> <!-- Upewniamy się, że kontener kropek istnieje -->
+                </div>
+                <p>When starting a new career, you’ll receive information about the <b>time</b> and <b>location</b> of the police station where your <b>shift</b> begins. To start your shift, head to the designated station and <b>press T</b> before your shift starts. If you’re unsure where the station is located, look for the <b>light blue suitcase</b> icon on the map. Being late or missing a shift will result in <b>experience point deductions</b> (details below).</p>
+
+				 <p>You can also start your shift early – the game will automatically skip ahead to the appropriate time.</p>
+
+				 <p>Once your shift begins, gameplay remains similar to the standard LSPDFR experience: accept callouts, chase suspects, and conduct traffic stops. However, LSPDFR Enhanced introduces key changes:
+				
+				<ul>
+				<li><b>Patrol Districts:</b> You’ll be assigned specific districts to patrol at the start of your shift. Leaving your assigned area will display a <b>warning icon (!)</b> in the top-left corner. However, during pursuits or callouts, you can travel <b>anywhere</b>.</li>
+				<li><b>Authorized Vehicles:</b> You are limited to <b>specific police vehicles</b>. If you enter an unauthorized vehicle, you’ll see a <b>warning</b> and won’t be able to drive it. Visit any police garage and <b>press T</b> to view all authorized vehicles.</li>
+				<li><b>Break Time:</b> During your shift, you can take a <b>30-minute break</b>. During this time, you won’t receive callouts and can freely move around the map.
+				Each shift lasts <b>12 hours</b> – from 12:00 PM to 12:00 AM or 12:00 AM to 12:00 PM. When your shift ends, return to the station where you started and press T again.</li></p>
+				</ul>
+
+				 <p>An additional feature is <b>the overtime</b> system. Up to three times per month, you can extend your shift to 14 hours by <b>pressing T and left CTRL simultaneously</b> at the start. Overtime comes with <b>increased earnings</b>.</p>
+            </div>
+
+            <div class="feature">
+                <h2>Experience Points And Ranks</h2>
+                <div class="slideshow">
+                    <div class="slides">
+                        <img src="https://i.imgur.com/AHNRD6u.png" alt="">
+                        <img src="https://i.imgur.com/qMfUlAJ.png" alt="">
+                        <img src="https://i.imgur.com/K4Hq9io.jpeg" alt="">
+                    </div>
+                    <button class="prev">&#10094;</button>
+                    <button class="next">&#10095;</button>
+					<div class="dots"></div> <!-- Upewniamy się, że kontener kropek istnieje -->
+                </div>
+                <p>During your shift, earn experience points by handling callouts, arresting suspects, and conducting traffic stops. These points are added to your account after the shift ends. Each rank has a specific experience point range (e.g., 0–500). Advancing to a higher rank grants you increased pay, access to new police stations (and patrol areas), and unlocks new emergency vehicles.</p>
+            </div>
+			
+            <div class="feature">
+                <h2>Hunger And Sleep</h2>
+                <div class="slideshow">
+                    <div class="slides">
+                        <img src="https://i.imgur.com/qhVDOiz.png" alt="">
+						<img src="https://i.imgur.com/RioyBpH.png" alt="">
+                        <img src="https://i.imgur.com/CJY2T86.png" alt="">
+                        <img src="https://i.imgur.com/mJp9gjF.png" alt="">
+                        <img src="https://i.imgur.com/yJs9JlE.png" alt="">
+                        <img src="https://i.imgur.com/Jz5rMGw.png" alt="">
+                        <img src="https://i.imgur.com/krB7z6e.png" alt="">
+                        <img src="https://i.imgur.com/kcJZwdV.png" alt="">
+                        <img src="https://i.imgur.com/SJtDbE9.png" alt="">
+                    </div>
+                    <button class="prev">&#10094;</button>
+                    <button class="next">&#10095;</button>
+					<div class="dots"></div> <!-- Upewniamy się, że kontener kropek istnieje -->
+                </div>
+                <p>To keep your character alive, you need to manage their <b>hunger</b> and <b>fatigue</b> levels.</p>
+				<p><b>Hunger:</b></p>
+				<p>When your character is hungry, the screen starts <b>shaking</b>. Over time, they lose the <b>ability to run</b>, <b>walk as if injured</b>, and eventually <b>die</b>. The first hunger effects appear after approximately <b>35</b> in-game hours without food, with death occurring after <b>70</b> hours.</p>
+				<p>To satisfy hunger, you have several options:
+				<ul>
+				<li><b>Store:</b> The cheapest option, but only restores <b>70%</b> hunger.</li>
+				<li><b>Fast Food:</b> More expensive but restores <b>85%</b> hunger.</li>
+				<li><b>Restaurant:</b> The most expensive option, fully restoring <b>100%</b> hunger.</li></p>
+				</ul>
+				<p>Meal prices depend on your hunger level – the hungrier you are, the more you’ll pay.</p>
+				<p>Alternatively, you can <b>cook at home</b>. Buying ingredients and preparing a meal in your apartment is cheaper than dining out and also restores <b>100%</b> hunger. Here's how:
+				<ol>
+				<li>Visit a store, approach the fridge/freezer, press "E", and select the items you want to buy.</li>
+				<li>Go to your apartment, approach the fridge, and press "E" to store the items.</li>
+				<li>Approach the stove, press "E", and choose the dish you want to cook.</li></p>
+				</ol>
+				<p><b>Fatigue:</b></p>
+				<p>When your character is tired, the screen shows <b>various effects</b>. Over time, the character begins to <b>fall randomly</b> and eventually <b>dies</b>. Fatigue effects start appearing after <b>27</b> in-game hours, with death occurring after <b>54</b> hours without sleep.</p>
+				<p>To combat fatigue, you can: 
+				<ul>
+				<li><b>Sleep in your apartment bed:</b> Approach the bed, press "E", and select how many hours you want to sleep. The longer the sleep, the more fatigue is reduced. Sleep is <b>free</b> and restores up to <b>100%</b> energy.</li>
+				<li><b>Drink coffee:</b> Available in cafes, this option restores up to <b>75%</b> fatigue but comes at a <b>cost</b>.</li>
+				</ul></p>
+            </div>
+			<div class="feature">
+                <h2>Fuel</h2>
+                <div class="slideshow">
+                    <div class="slides">
+                        <img src="https://i.imgur.com/6W1VqHS.png" alt="">
+						<img src="https://i.imgur.com/dVuWGkC.png" alt="">
+                        <img src="https://i.imgur.com/z2haUef.png" alt="">
+                        <img src="https://i.imgur.com/o8sPcSB.png" alt="">
+                    </div>
+                    <button class="prev">&#10094;</button>
+                    <button class="next">&#10095;</button>
+					<div class="dots"></div> <!-- Upewniamy się, że kontener kropek istnieje -->
+                </div>
+                <p>From now on, your vehicle will <b>consume fuel</b> as you drive. When the fuel level gets critically low, your vehicle will start to skid and stall until it eventually comes to a complete stop.</p>
+				<p><b>How to Refuel?</b></p>
+				<p>You can refuel at any <b>fuel pump</b> on the map. There’s no need to limit yourself to marked gas stations – unmarked fuel pumps can also be used.</p>
+				<p>To refuel:
+				<ol>
+				<li>Drive your vehicle to the <b>pump.</b></li>
+				<li>Exit the vehicle, approach the pump, and press T.</li>
+				<li>Move to the <b>rear left side</b> of the vehicle and press T again to start <b>refueling.</b></li>
+				<li>To stop refueling, press T once more, then return to the pump and press T again.</li></p>
+				</ol>
+				<p>Refueling costs <b>money</b>, but it’s <b>free</b> for <b>police</b> vehicles if you’re on duty. You need to refuel only <b>cars</b> and <b>motorcycles</b>.</p>
+            </div>
+
+            <div class="feature">
+                <h2>Time Scaling</h2>
+                <p>Time in GTA V moves quickly – <b>12 in-game hours</b> translate to just <b>24 minutes</b> in real life. This is a relatively short duration for a single shift, especially since some callouts can last longer than 24 minutes.</p>
+                <p>With the new <b>time scaling system</b>, you can now adjust in the settings how many real-life milliseconds correspond to one in-game second. This allows you to extend gameplay time and tailor the pace to your preferences.</p>
+            </div>
+			
+			<div class="feature">
+                <h2>Death</h2>
+				<div class="slideshow">
+                    <div class="slides">
+                        <img src="https://i.imgur.com/rvsRsws.png" alt="">
+						<img src="https://i.imgur.com/0JFakD5.png" alt="">
+                    </div>
+                    <button class="prev">&#10094;</button>
+                    <button class="next">&#10095;</button>
+					<div class="dots"></div> <!-- Upewniamy się, że kontener kropek istnieje -->
+                </div>
+                <p>When your character <b>dies</b>, there is a set percentage chance (default: 50%) that they will be <b>saved by medics</b>. If successful, you’ll receive a <b>few days off</b> before starting your next shift.</p>
+                <p>However, if the medics <b>fail</b> to save you, all your progress will be <b>reset</b>, and you’ll have to start your career from <b>scratch</b>.</p>
+            </div>
+			
+			<div class="feature">
+                <h2>Rent</h2>
+				<div class="slideshow">
+                    <div class="slides">
+						<img src="https://i.imgur.com/FQFcDhX.png" alt="">
+						<img src="https://i.imgur.com/wh6DzNH.png" alt="">
+                    </div>
+                    <button class="prev">&#10094;</button>
+                    <button class="next">&#10095;</button>
+					<div class="dots"></div> <!-- Upewniamy się, że kontener kropek istnieje -->
+                </div>
+                <p>Every day at midnight, a <b>rental fee</b> will be deducted from your account for your apartment. The cost varies depending on the location where you live.</p>
+                <p>For example:
+				<ul>
+				<li>Renting an apartment in <b>Grapeseed</b> costs only <b>$30</b> per day.</li>
+				<li>However, living in <b>Vinewood Hills</b> will set you back <b>$380</b> per day.</li>
+				</ul></p>
+				<p>The choice is yours – luxury or affordability?</p>
+            </div>
+			
+			<div class="feature">
+                <h2>Online Stuff</h2>
+				<div class="slideshow">
+                    <div class="slides">
+						<img src="https://i.imgur.com/vx8pspR.png" alt="">
+                    </div>
+                    <button class="prev">&#10094;</button>
+                    <button class="next">&#10095;</button>
+					<div class="dots"></div> <!-- Upewniamy się, że kontener kropek istnieje -->
+                </div>
+                <p>While on shift, you will be <b>connected to other players</b> currently using LSPDFR Enhanced.</p>
+                <p>Whenever you:
+				<ul>
+				<li>start or end a shift,</li>
+				<li>accept or complete a callout,</li>
+				<li>initiate a traffic stop,</li>
+				</ul>
+				this information will be automatically shared with all other players currently on shift. Similarly, you will receive notifications about the actions of other players.</p>
+            </div>
+        </section>
+		
+		<section id="customization">
+            <h1>Customization</h1>
+            <div class="feature">
+                <h2>Settings.ini file</h2>
+                <p>The “Settings.ini” file is where you can configure various aspects of the plugin to suit <b>your preferences</b>. You can disable or modify different systems to match your <b>gameplay style.</b></p>
+                <p>Each setting is <b>individually described</b> within the file, so there’s no need to go into detail here. After making any changes, remember to <b>reload the entire LSPDFR.</b></p>
+                <p>You can find the file at the following path: <i>“Your GTA V folder/plugins/LSPDFR/LSPDFR Enhanced”</i></p>
+            </div>
+
+            <div class="feature">
+                <h2>ranks.xml file</h2>
+                <p>To configure the <b>“ranks.xml”</b> file for the rank system in LSPDFR Enhanced, follow the structure below. This system allows you to assign specific ranks to your character based on points earned, determine assigned stations and patrol zones, and set salaries and vehicles for each rank.</p>
+                <p>File Structure:</p>
+                <p><b>Ranks:</b> The root element containing all rank configurations. Each rank is enclosed in <i>&lt;Rank&gt;</i> tags.</p>
+                <p><b>Rank:</b> Each rank includes a set of attributes defining its name, required points, assigned stations, zones, salary, and vehicles.</p>
+                <p>Inside each <i>&lt;Rank&gt;</i> tag:
+				<ul>
+				<li><b>&lt;Name&gt;:</b> The name of the rank (e.g., Officer I, Sergeant I).</li>
+				<li><b>&lt;PointsMin&gt; and &lt;PointsMax&gt;:</b> The minimum and maximum points needed to achieve or maintain this rank. For example: <i>&lt;PointsMin&gt;0&lt;/PointsMin&gt;</i> and <i>&lt;PointsMax&gt;500&lt;/PointsMax&gt;</i> mean that to be an Officer I, the player needs between 0 and 500 points.</li>
+				<li><b>&lt;Stations&gt;:</b> Defines the police stations where this rank can work. Each station is enclosed within a <i>&lt;Station&gt;</i> tag.</li>
+				<ul>
+				<li><b>&lt;StationName&gt;:</b> The name of the assigned station (e.g., La Mesa Police Station).</li>
+				<li><b>&lt;Zones&gt;:</b> Defines the patrol zones for each station. You can list several zones inside <i>&lt;Zone&gt;</i> tags (e.g., LMESA, EBURO).</li>
+				</ul>
+				<li><b>&lt;Salary&gt;:</b> The salary paid to the player per in-game day at this rank (e.g., 385 for Officer I).</li>
+				<li><b>&lt;Vehicles&gt;:</b> Defines the police vehicles available for this rank. Each vehicle is listed in a <i>&lt;Vehicle&gt;</i> tag with two attributes:</li>
+				<ul>
+				<li><b>model:</b> The vehicle model name (e.g., “police” or “police3”).</li>
+				<li><b>Vehicle:</b> The display name for the vehicle (e.g., “Police Cruiser”).</li>
+				</ul>
+				</ul>
+				<p>Customizing Ranks:</p>
+				<ul>
+					<li><b>To Add New Ranks:</b> Copy the structure of an existing <i>&lt;Rank&gt;</i> block, change the <i>&lt;Name&gt;</i>, and adjust points, stations, zones, salary, and vehicles accordingly.</li>
+					<li><b>To Add/Modify Patrol Zones:</b> Inside each <i>&lt;Station&gt;</i>, list multiple zones in <i>&lt;Zone&gt;</i> tags. These correspond to in-game areas the player can patrol while at that rank.</li>
+					<li><b>To Adjust Salary:</b> Modify the <i>&lt;Salary&gt;</i> value to change the daily in-game pay for that rank.</li>
+					<li><b>To Add New Vehicles:</b> Add more <i>&lt;Vehicle&gt;</i> tags with different models and names to provide the rank access to a wider variety of vehicles.</li>
+				</ul>
+				</p>
+				<p>Final Notes:</p>
+				<p>This configuration allows you to control the player's career progression, assigned stations, patrol zones, and available vehicles for each rank.
+After making changes to the ranks.xml file, ensure you reload the entire LSPDFR plugin for the updates to take effect.</p>
+            </div>
+
+            <div class="feature">
+                <h2>data.xml file</h2>
+                <p>The “data.xml” file contains the <b>saved data and statistics</b> of your characters. Editing this file is <b>not recommended</b>, and if you choose to do so, it is at <b>your own risk.</b></p>
+            </div>
+		<section>
+
+        <section id="credits">
+            <h1>Credits</h1>
+            <p>The plugin and guide created entirely by user Vitus27.</p>
+            <p>A huge thank you to all the patrons who supported the project.</p>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 LSPDFR Enhanced. All Rights Reserved.</p>
+    </footer>
+</body>
+<script>
+	document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll('.slideshow').forEach(slideshow => {
+        const slides = slideshow.querySelector('.slides');
+        const images = slides.children;
+        const dotsContainer = slideshow.querySelector('.dots');
+        let index = 0;
+
+        // Tworzenie kropek
+        for (let i = 0; i < images.length; i++) {
+            const dot = document.createElement('button');
+            dot.classList.add('dot');
+            dot.addEventListener('click', () => {
+                showSlide(i);
+            });
+            dotsContainer.appendChild(dot);
+        }
+
+        const dots = dotsContainer.children;
+
+        // Funkcja wyświetlania slajdu
+        const showSlide = (i) => {
+            index = (i + images.length) % images.length;
+            slides.style.transform = `translateX(${-index * 100}%)`;
+            updateDots();
+        };
+
+        // Aktualizacja kropek
+        const updateDots = () => {
+            Array.from(dots).forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        };
+
+        // Obsługa przycisków "prev" i "next"
+        slideshow.querySelector('.prev').addEventListener('click', () => {
+            showSlide(index - 1);
+        });
+
+        slideshow.querySelector('.next').addEventListener('click', () => {
+            showSlide(index + 1);
+        });
+
+        // Inicjalizacja pierwszej kropki jako aktywnej
+        showSlide(0);
+    });
+});
+</script>
+</html>
